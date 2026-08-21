@@ -15,13 +15,8 @@ manually. Nothing shares code between the two repos.
   table). Give an area its own `app/dashboard/{id}/page.tsx` if it later
   needs a different visualization — Next.js resolves the static route first.
 - Data source: static `data/*.json` files, committed to git, read at request
-  time. All 10 area files start empty (`"items": []`) — fill in real numbers
-  before this is useful to anyone. `data/contratti.json` is separate — see
-  below.
-- **Contratti** (`app/dashboard/contratti/page.tsx`) — an 11th, standalone
-  nav entry, not part of the ENTRATE/COSTI totals system: a registry of
-  contract terms (permanencia, disdetta, rinnovo automatico), type
-  `Contract` in `lib/types.ts`, seed `data/contratti.json`. Starts empty.
+  time. All 10 start empty (`"items": []`) — fill in real numbers before this
+  is useful to anyone.
 - Storage: `lib/store.ts`'s `createJsonStore` supports an optional Vercel
   Blob-backed persistence layer (falls back to the local file if
   `BLOB_READ_WRITE_TOKEN` isn't set). Currently only used by the sync route
@@ -35,18 +30,6 @@ manually. Nothing shares code between the two repos.
   `FinanceChat.tsx`, on the Overview page) — works as soon as
   `ANTHROPIC_API_KEY` is set. Builds its context by reading all 10 area JSON
   files live, so it's always current with whatever's in `data/`.
-- **Assistente Contratti chat** (`app/api/dashboard/contracts-chat/route.ts`
-  + `ContractsChat.tsx`, on the Contratti page) — separate from the Finanze
-  chat, scoped only to `data/contratti.json`. The system prompt is written
-  to be proactive, not just reactive: it's told to always compute
-  days-remaining against today's date, flag auto-renewal and closing
-  cancellation windows unprompted, and cite which contract an answer came
-  from. It defaults to Spanish sample questions because the real contract
-  text (`key_terms`) will be transcribed from Spanish-language documents —
-  the model still answers in whatever language the question is asked in
-  (Italian, Spanish, or English), and is told to keep the original Spanish
-  legal term in parentheses when translating one (e.g. "permanencia") so
-  nothing gets lost in translation.
 - **Google Drive auto-sync** (`app/api/dashboard/sync/route.ts` +
   `lib/drive/client.ts`) — **plumbing only, not working yet.** The OAuth
   client and cron wiring are real; `parseBollettaPdf()` is a stub that

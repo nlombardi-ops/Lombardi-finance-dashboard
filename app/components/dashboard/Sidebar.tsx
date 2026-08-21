@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, FileText, LogOut } from "lucide-react";
+import { LayoutDashboard, LogOut } from "lucide-react";
 import { AREAS, type AreaGroup } from "@/lib/areas";
 
 const GROUPS: AreaGroup[] = ["ENTRATE", "COSTI"];
@@ -39,18 +39,6 @@ export default function Sidebar() {
         >
           <LayoutDashboard className="h-4 w-4" />
           Overview
-        </Link>
-
-        <Link
-          href="/dashboard/contratti"
-          className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
-            pathname.startsWith("/dashboard/contratti")
-              ? "bg-stone-200 text-stone-900 font-medium"
-              : "text-stone-600 hover:bg-stone-50 hover:text-stone-900"
-          }`}
-        >
-          <FileText className="h-4 w-4" />
-          Contratti
         </Link>
 
         {GROUPS.map((group) => (
